@@ -11,6 +11,12 @@ const gui = new GUI();
 const ambientTweaks = gui.addFolder("Ambient Light");
 const directionalTweaks = gui.addFolder("Directional Light");
 const hemiSphereTweaks = gui.addFolder("Hemisphere Light");
+const pointLightTweaks = gui.addFolder("Point Light");
+
+ambientTweaks.close();
+directionalTweaks.close();
+hemiSphereTweaks.close();
+pointLightTweaks.close();
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -87,6 +93,26 @@ hemiSphereTweaks
   .onChange(() => {
     hemisphereLight.color.set(hemisphereLight.color);
   });
+
+//point light
+const pointLight = new THREE.PointLight(0xff900, 1.5);
+scene.add(pointLight);
+
+pointLightTweaks.add(pointLight, "intensity").min(0).max(3).step(0.01);
+pointLightTweaks
+  .addColor(pointLight, "color")
+  .name("Color Picker")
+  .onChange(() => {
+    pointLight.color.set(pointLight.color);
+  });
+
+const pointLightMove = pointLightTweaks.addFolder("Move");
+
+pointLightMove.add(pointLight.position, "x").min(-5).max(5).step(0.01);
+
+pointLightMove.add(pointLight.position, "y").min(-5).max(5).step(0.01);
+
+pointLightMove.add(pointLight.position, "z").min(-5).max(5).step(0.01);
 
 /**
  * Objects
